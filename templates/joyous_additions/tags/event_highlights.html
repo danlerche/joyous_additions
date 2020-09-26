@@ -1,0 +1,43 @@
+{% load wagtailcore_tags joyous_tags %}
+
+{% for evod in events %}
+
+{% if evod.date == today %}
+{% for title, event, url in evod.days_events %}
+{% if forloop.first %}
+    <h3>Today</h3>
+{% endif %}
+    <div class="time">{{event.at}}</div>
+  <a href="{% pageurl event %}" class="title">
+    {{title|truncatechars_html:40 }}
+  </a>
+{% endfor %}
+{% endif %}
+
+{% if evod.date == tomorrow %}
+{% for title, event, url in evod.days_events %}
+{% if forloop.first %}
+    <h3>Tomorrow</h3>
+{% endif %}
+    <div class="time">{{event.at}}</div>
+  <a href="{% pageurl event %}" class="title">
+    {{title|truncatechars_html:40 }}
+  </a>
+{% endfor %}
+{% endif %}
+
+{% if evod.date >= plus_two_days %}
+{% for title, event, url in evod.days_events %}
+{% if forloop.first %}
+    <h3>{{evod.date|date:"l, F d"}}</h3>
+{% endif %}
+    <div class="time">{{event.at}}</div>
+  <a href="{% pageurl event %}" class="title">
+    {{title|truncatechars_html:40 }}
+  </a>
+{% endfor %}
+{% endif %}
+{% endfor %}
+
+<a class="btn btn-feature" href="{{calendarUrl}}">View All</a>
+{{ upcoming }}
